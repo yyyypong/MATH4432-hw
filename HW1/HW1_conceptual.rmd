@@ -1,6 +1,6 @@
 ---
 title: "Assignment 1_conceptual"
-author: "Pong Yui Yi Monica"
+author: "Pong Yui Yi Monica SID: 20853295"
 date: "2024-10-7"
 output: pdf_document
 ---
@@ -81,23 +81,66 @@ Our target is to minimize the test error, hence we want to balance the bias and 
 ![Bias-Variance Decomposition Curves](bias_variance_decomposition.png){width=80%}
 </center>
 \
-(b).
+(b). Here's an explanation for the shape of each of the five curves:
 
-这是您请求的英文版本：
-
-- **Bias**: is the error introduced when the complexity of a problem is not sufficiently modelled by the simplicity of the chosen method 
-(e.g. linear regression for non-linear relationships). As model flexibility increases (linear->trees->boosting, decreasing K in KNN, etc.), bias decreases monotonically, because less assumptions are being made about the data structure and its relationship with the response.
-- **Variance**: refers to how much model predictions would change with different training data. It increases with model flexibility because more complex models tend to fit the training data too closely, leading to overfitting and poor generalization on new data.
-- **Training Error**: decreases monotonically as flexibility increases. More flexible methods are generally higher variance, and can learn more complex relationships more completely, but also run the risk of overfitting, which is seen where the training error and test error diverge. Think of a decision tree, where the number of terminal nodes = the number of training observations (this model will have 0 training error and a high test error).
-- **Test Error**: it first declines, then flattens, and finally begins to rise as model flexibility increases. The lowest point on this curve represents the optimal trade-off between bias and variance, where the total error ($E[(Y-\hat{Y})^2] = [Bias(\hat{f}(X))]^2 + Var(\hat{f}(X)) + Var(\epsilon)$) is minimized. Beyond this point, the model becomes too specific to the training data, leading to overfitting (high variance with low bias). On the other hand, before reaching this point, the model may be underfitting due to high bias and insufficient flexibility.
-- **Irreducible Error**: it stems from the inherent noise/ randomness in the dataset. This type of error remains constant and cannot be reduced, no matter how sophisticated or flexible the model becomes. The reason is that the error term $\epsilon$ might include unmeasured factors or natural variability that cannot be captured by the input variables $X$. Therefore, regardless of how accurately the model approximates the true function $f$, there will always be some minimum level of error, represented by $Var(\epsilon) > 0$.
-
-
-
-
-
-
+1. **Bias**: The bias curve shows a monotonic decrease as model flexibility increases. This is because more flexible models can better capture complex relationships in the data, reducing the gap between model assumptions and actual data patterns. For example, as we move from linear regression to decision trees to ensemble methods, the model makes fewer assumptions, thus lowering bias.
+2. **Variance**: The variance curve monotonically increases with model flexibility. This occurs because more flexible models are more susceptible to fitting noise in the training data, leading to overfitting. For instance, in K-nearest neighbors, as K decreases, the model becomes more flexible but also more sensitive to individual data points, thereby increasing variance.
+3. **Training Error**: The training error curve monotonically decreases as model flexibility increases. This is because more flexible models can fit the training data better, potentially even perfectly fitting all training points. For example, a decision tree with as many leaf nodes as there are training samples can achieve zero training error, though this often indicates overfitting.
+4. **Test Error**: The test error curve has a U-shape. When model flexibility is low, test error is high due to high bias (underfitting). As flexibility increases, test error decreases until it reaches an optimal point. Beyond this point, as the model becomes too flexible, variance increases leading to overfitting, and test error starts to rise again. The optimal point represents the best balance between bias and variance.
+5. **Irreducible Error**: The irreducible error is a horizontal line that doesn't change with model flexibility. This error stems from inherent noise or randomness in the data that can't be reduced by improving the model. It represents the lower bound of error that persists even with an ideal model.
 
 # question 3.1
+> Describe the null hypotheses to which the p-values given in Table 3.4 correspond. 
+> Explain what conclusions you can draw based on these p-values. Your explanation should be phrased in terms of sales, TV,
+> radio, and newspaper, rather than in terms of the coefficients of the
+> linear model.
+<center>
+![Table 3.4](table3.4.png){width=80%}
+</center>
+
+
+## **answer:**
+In Table 3.4, the p-values correspond to the null hypotheses that each advertising medium—TV, radio, and newspaper—has no effect on sales, 
+meaning that their true coefficients are zero. \
+For TV and radio, the p-values are extremely small (both less than 0.0001), indicating that we can **reject the null hypotheses** for these variables. 
+This suggests that both TV and radio advertising have a statistically significant positive impact on sales. \
+In contrast, the p-value for newspaper advertising is quite large (0.8599), meaning we **fail to reject the null hypothesis** for newspaper. \
+Thus, there is no evidence that newspaper advertising has a significant effect on sales in this model. \
+Therefore, we can conclude that TV and radio spending are important predictors for increasing sales, while newspaper spending likely does not contribute meaningfully to sales.
 
 # question 3.5
+
+> Consider the fitted values that result from performing linear regression
+> without an intercept. In this setting, the ith fitted value takes
+> the form
+> $$\hat y_i = x_i\hat \beta$$
+> where $$\hat \beta = (\sum_{i=1}^n x_iy_i)/ \sum_{i=1}^n x_{i'}^2.$$
+> show that we can write 
+> $$\hat y_i = \sum_{i'=1}^n a_{i'}y_i.$$
+> what is $a_i$?
+> Note: We interpret this result by saying that the fitted values fromlinear regression are linear combinations of the response values.
+
+## **answer:**
+
+To show that the fitted values $\hat{y}_i$ from a linear regression without an intercept can be expressed as a linear combination of the response values $y_i$, we start with the given form of the fitted value:
+
+$$\hat{y}_i = x_i \hat{\beta}$$
+where
+$$
+\hat{\beta} = \frac{\sum_{i=1}^n x_i y_i}{\sum_{i=1}^n x_i^2}.
+$$
+$$
+\hat{y}_i = x_i \left( \frac{\sum_{i'=1}^n x_{i'} y_{i'}}{\sum_{i'=1}^n x_{i'}^2} \right).
+$$
+$$
+\hat{y}_i = \frac{x_i}{\sum_{i'=1}^n x_{i'}^2} \sum_{i'=1}^n x_{i'} y_{i'}.
+$$
+$$
+\hat y_i = \sum_{i'=1}^n \left( \frac{x_i x_{i'}}{\sum_{i'=1}^n x_{i'}^2} \right) y_{i'}.
+$$
+
+Thus, the fitted value $\hat y_i$ is a linear combination of the response values $y_{i'}$, where the coefficient $a_{i'}$ associated with each $y_{i'}$ is:
+
+$$
+a_{i'} = \frac{x_i x_{i'}}{\sum_{i'=1}^n x_{i'}^2}.
+$$
